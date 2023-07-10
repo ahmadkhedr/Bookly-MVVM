@@ -1,20 +1,24 @@
+import 'package:bookly_mvvm/features/splash/presentation/view/splash_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'constants.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const BooklyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class BooklyApp extends StatelessWidget {
+  const BooklyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+    return GetMaterialApp(
+      theme: ThemeData(
+        scaffoldBackgroundColor: kPrimaryColor,
       ),
+      debugShowCheckedModeBanner: false,
+      home: const SplashView(),
     );
   }
 }
