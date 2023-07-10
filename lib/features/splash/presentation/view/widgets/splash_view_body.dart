@@ -14,6 +14,10 @@ class SplashViewBody extends StatelessWidget {
         Image(
           image: AssetImage(AssetsData.logo),
         ),
+        Text(
+          "Read Books For Free",
+          textAlign: TextAlign.center,
+        ),
       ],
     );
   }
