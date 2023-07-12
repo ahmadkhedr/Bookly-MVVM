@@ -21,13 +21,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
   void initState() {
     super.initState();
     initSlidingAnimation();
-    Future.delayed(const Duration(seconds: 2), () {
-      Get.to(
-        () => const HomView(),
-        transition: Transition.cupertino,
-        duration: const Duration(milliseconds:250 )
-      );
-    });
+    navigateToTheHomeScreen();
   }
 
   @override
@@ -59,5 +53,13 @@ class _SplashViewBodyState extends State<SplashViewBody>
         Tween<Offset>(begin: const Offset(0, 2), end: Offset.zero)
             .animate(controller);
     controller.forward();
+  }
+
+  void navigateToTheHomeScreen() {
+    Future.delayed(const Duration(seconds: 2), () {
+      Get.to(() => const HomView(),
+          transition: Transition.cupertino,
+          duration: const Duration(milliseconds: 250));
+    });
   }
 }
