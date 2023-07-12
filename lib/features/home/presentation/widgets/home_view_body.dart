@@ -1,3 +1,4 @@
+import 'package:bookly_mvvm/core/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 import 'custom_app_bar.dart';
@@ -9,11 +10,23 @@ class HomeViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        CutomAppBar(),
-        FeaturedBoxListView(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          CutomAppBar(),
+          FeaturedBoxListView(),
+          SizedBox(
+            height: 50.0,
+          ),
+          Text(
+            "Best Seller",
+            style: Styles.titleMedium,
+          )
+        ],
+      ),
     );
   }
 }
