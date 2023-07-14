@@ -28,13 +28,38 @@ class BestSellerListViewItem extends StatelessWidget {
         const SizedBox(
           width: 30.0,
         ),
-        const SizedBox(
-          width: 200.0,
-          child: Text(
-            "Harry Poter and the Goblet Of Fire",
-            style: Styles.textStyle20,
-          ),
-        )
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * .5,
+              child: const Text(
+                "Harry Poter and the Goblet Of Fire",
+                style: Styles.textStyle20,
+              ),
+            ),
+            const SizedBox(
+              height: 3.0,
+            ),
+            const Text(
+              "J.K. Rowling",
+              style: Styles.textStyle14,
+            ),
+            const SizedBox(
+              height: 3.0,
+            ),
+            Row(
+              children: [
+                Text(
+                  "19.99 \$",
+                  style: Styles.textStyle20.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
       ],
     );
   }
