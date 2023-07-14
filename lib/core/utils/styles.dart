@@ -17,4 +17,8 @@ static const textStyle14 = TextStyle(
   fontSize: 14.0,
   fontWeight: FontWeight.w700
 );
+static const textStyle16 = TextStyle(
+  fontSize: 16.0,
+  fontWeight: FontWeight.w500
+);
 }
