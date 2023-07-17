@@ -21,7 +21,7 @@ class FeaturedBookItem extends StatelessWidget {
             color: Colors.red,
             image: DecorationImage(
                 image: NetworkImage(
-                  item.volumeInfo.imageLinks!.thumbnail,
+                  item.volumeInfo.imageLinks.thumbnail,
                 ),
                 fit: BoxFit.fill),
           ),

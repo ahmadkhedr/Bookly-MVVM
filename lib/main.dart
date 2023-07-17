@@ -1,6 +1,5 @@
 import 'package:bookly_mvvm/core/utils/service_locator.dart';
 import 'package:bookly_mvvm/features/home/data/repos/home_repo.dart';
-import 'package:bookly_mvvm/features/home/data/repos/home_repo_impl.dart';
 import 'package:bookly_mvvm/features/home/presentation/manager/cubit/best_seller_cubit.dart';
 import 'package:bookly_mvvm/features/home/presentation/manager/cubit/featured_books_cubit.dart';
 import 'package:bookly_mvvm/features/splash/presentation/view/splash_view.dart';
