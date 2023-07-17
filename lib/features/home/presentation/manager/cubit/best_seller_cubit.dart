@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:bookly_mvvm/core/errors/failure.dart';
 import 'package:bookly_mvvm/features/home/data/models/book_model.dart';
-import 'package:bookly_mvvm/features/home/data/repos/home_repo_impl.dart';
 import 'package:meta/meta.dart';
+
+import '../../../data/repos/home_repo.dart';
 
 part 'best_seller_state.dart';
 
@@ -11,7 +11,7 @@ class BestSellerCubit extends Cubit<BestSellerState> {
     required this.homeRepo,
   }) : super(BestSellerInitial());
 
-  HomeRepoImpl homeRepo;
+  HomeRepo homeRepo;
 
 
   getBesetSellerBooks() async {

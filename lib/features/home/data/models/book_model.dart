@@ -51,7 +51,6 @@ class Item {
   final VolumeInfo volumeInfo;
   final SaleInfo saleInfo;
   final AccessInfo accessInfo;
-  final SearchInfo? searchInfo;
 
   Item({
     required this.kind,
@@ -61,7 +60,6 @@ class Item {
     required this.volumeInfo,
     required this.saleInfo,
     required this.accessInfo,
-    this.searchInfo,
   });
 
   Item copyWith({
@@ -72,7 +70,6 @@ class Item {
     VolumeInfo? volumeInfo,
     SaleInfo? saleInfo,
     AccessInfo? accessInfo,
-    SearchInfo? searchInfo,
   }) =>
       Item(
         kind: kind ?? this.kind,
@@ -82,7 +79,6 @@ class Item {
         volumeInfo: volumeInfo ?? this.volumeInfo,
         saleInfo: saleInfo ?? this.saleInfo,
         accessInfo: accessInfo ?? this.accessInfo,
-        searchInfo: searchInfo ?? this.searchInfo,
       );
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
@@ -93,9 +89,6 @@ class Item {
         volumeInfo: VolumeInfo.fromJson(json["volumeInfo"]),
         saleInfo: SaleInfo.fromJson(json["saleInfo"]),
         accessInfo: AccessInfo.fromJson(json["accessInfo"]),
-        searchInfo: json["searchInfo"] == null
-            ? null
-            : SearchInfo.fromJson(json["searchInfo"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -106,7 +99,6 @@ class Item {
         "volumeInfo": volumeInfo.toJson(),
         "saleInfo": saleInfo.toJson(),
         "accessInfo": accessInfo.toJson(),
-        "searchInfo": searchInfo?.toJson(),
       };
 }
 
@@ -117,7 +109,7 @@ class AccessInfo {
   final bool publicDomain;
   final String textToSpeechPermission;
   final Epub epub;
-  final Pdf pdf;
+  final Epub pdf;
   final String webReaderLink;
   final String accessViewStatus;
   final bool quoteSharingAllowed;
@@ -142,7 +134,7 @@ class AccessInfo {
     bool? publicDomain,
     String? textToSpeechPermission,
     Epub? epub,
-    Pdf? pdf,
+    Epub? pdf,
     String? webReaderLink,
     String? accessViewStatus,
     bool? quoteSharingAllowed,
@@ -168,7 +160,7 @@ class AccessInfo {
         publicDomain: json["publicDomain"],
         textToSpeechPermission: json["textToSpeechPermission"],
         epub: Epub.fromJson(json["epub"]),
-        pdf: Pdf.fromJson(json["pdf"]),
+        pdf: Epub.fromJson(json["pdf"]),
         webReaderLink: json["webReaderLink"],
         accessViewStatus: json["accessViewStatus"],
         quoteSharingAllowed: json["quoteSharingAllowed"],
@@ -190,46 +182,23 @@ class AccessInfo {
 
 class Epub {
   final bool isAvailable;
-
-  Epub({
-    required this.isAvailable,
-  });
-
-  Epub copyWith({
-    bool? isAvailable,
-  }) =>
-      Epub(
-        isAvailable: isAvailable ?? this.isAvailable,
-      );
-
-  factory Epub.fromJson(Map<String, dynamic> json) => Epub(
-        isAvailable: json["isAvailable"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "isAvailable": isAvailable,
-      };
-}
-
-class Pdf {
-  final bool isAvailable;
   final String? acsTokenLink;
 
-  Pdf({
+  Epub({
     required this.isAvailable,
     this.acsTokenLink,
   });
 
-  Pdf copyWith({
+  Epub copyWith({
     bool? isAvailable,
     String? acsTokenLink,
   }) =>
-      Pdf(
+      Epub(
         isAvailable: isAvailable ?? this.isAvailable,
         acsTokenLink: acsTokenLink ?? this.acsTokenLink,
       );
 
-  factory Pdf.fromJson(Map<String, dynamic> json) => Pdf(
+  factory Epub.fromJson(Map<String, dynamic> json) => Epub(
         isAvailable: json["isAvailable"],
         acsTokenLink: json["acsTokenLink"],
       );
@@ -286,7 +255,10 @@ class SaleInfo {
             ? null
             : SaleInfoListPrice.fromJson(json["listPrice"]),
         retailPrice: json["retailPrice"] == null
-            ? null
+            ?  SaleInfoListPrice.fromJson({
+                            "amountInMicros": 0,
+                            "currencyCode": "EGP"
+                        })
             : SaleInfoListPrice.fromJson(json["retailPrice"]),
         buyLink: json["buyLink"],
         offers: json["offers"] == null
@@ -327,7 +299,7 @@ class SaleInfoListPrice {
 
   factory SaleInfoListPrice.fromJson(Map<String, dynamic> json) =>
       SaleInfoListPrice(
-        amount: json["amount"]?.toDouble(),
+        amount: json["amount"] ?? 0.0,
         currencyCode: json["currencyCode"],
       );
 
@@ -401,81 +373,62 @@ class OfferListPrice {
       };
 }
 
-class SearchInfo {
-  final String textSnippet;
-
-  SearchInfo({
-    required this.textSnippet,
-  });
-
-  SearchInfo copyWith({
-    String? textSnippet,
-  }) =>
-      SearchInfo(
-        textSnippet: textSnippet ?? this.textSnippet,
-      );
-
-  factory SearchInfo.fromJson(Map<String, dynamic> json) => SearchInfo(
-        textSnippet: json["textSnippet"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "textSnippet": textSnippet,
-      };
-}
-
 class VolumeInfo {
   final String title;
-  final String? subtitle;
   final List<String> authors;
-  final String? publisher;
+  final String publisher;
   final String publishedDate;
-  final String? description;
+  final String description;
+  final List<IndustryIdentifier> industryIdentifiers;
   final ReadingModes readingModes;
-  final int? pageCount;
+  final int pageCount;
   final String printType;
-  final List<String>? categories;
+  final List<String> categories;
   final String maturityRating;
   final bool allowAnonLogging;
   final String contentVersion;
   final PanelizationSummary panelizationSummary;
-  final ImageLinks? imageLinks;
+  final ImageLinks imageLinks;
   final String language;
   final String previewLink;
   final String infoLink;
   final String canonicalVolumeLink;
-  final List<IndustryIdentifier>? industryIdentifiers;
+  final String? subtitle;
+  final int? averageRating;
+  final int? ratingsCount;
 
   VolumeInfo({
     required this.title,
-    this.subtitle,
     required this.authors,
-    this.publisher,
+    required this.publisher,
     required this.publishedDate,
-    this.description,
+    required this.description,
+    required this.industryIdentifiers,
     required this.readingModes,
-    this.pageCount,
+    required this.pageCount,
     required this.printType,
-    this.categories,
+    required this.categories,
     required this.maturityRating,
     required this.allowAnonLogging,
     required this.contentVersion,
     required this.panelizationSummary,
-    this.imageLinks,
+    required this.imageLinks,
     required this.language,
     required this.previewLink,
     required this.infoLink,
     required this.canonicalVolumeLink,
-    this.industryIdentifiers,
+    this.subtitle,
+    this.averageRating,
+    this.ratingsCount,
   });
 
   VolumeInfo copyWith({
     String? title,
-    String? subtitle,
     List<String>? authors,
     String? publisher,
     String? publishedDate,
     String? description,
+    List<IndustryIdentifier>? industryIdentifiers,
     ReadingModes? readingModes,
     int? pageCount,
     String? printType,
@@ -489,15 +442,17 @@ class VolumeInfo {
     String? previewLink,
     String? infoLink,
     String? canonicalVolumeLink,
-    List<IndustryIdentifier>? industryIdentifiers,
+    String? subtitle,
+    int? averageRating,
+    int? ratingsCount,
   }) =>
       VolumeInfo(
         title: title ?? this.title,
-        subtitle: subtitle ?? this.subtitle,
         authors: authors ?? this.authors,
         publisher: publisher ?? this.publisher,
         publishedDate: publishedDate ?? this.publishedDate,
         description: description ?? this.description,
+        industryIdentifiers: industryIdentifiers ?? this.industryIdentifiers,
         readingModes: readingModes ?? this.readingModes,
         pageCount: pageCount ?? this.pageCount,
         printType: printType ?? this.printType,
@@ -511,65 +466,63 @@ class VolumeInfo {
         previewLink: previewLink ?? this.previewLink,
         infoLink: infoLink ?? this.infoLink,
         canonicalVolumeLink: canonicalVolumeLink ?? this.canonicalVolumeLink,
-        industryIdentifiers: industryIdentifiers ?? this.industryIdentifiers,
+        subtitle: subtitle ?? this.subtitle,
+        averageRating: averageRating ?? this.averageRating,
+        ratingsCount: ratingsCount ?? this.ratingsCount,
       );
 
   factory VolumeInfo.fromJson(Map<String, dynamic> json) => VolumeInfo(
         title: json["title"],
-        subtitle: json["subtitle"],
         authors: List<String>.from(json["authors"].map((x) => x)),
         publisher: json["publisher"],
         publishedDate: json["publishedDate"],
         description: json["description"],
+        industryIdentifiers: List<IndustryIdentifier>.from(
+            json["industryIdentifiers"]
+                .map((x) => IndustryIdentifier.fromJson(x))),
         readingModes: ReadingModes.fromJson(json["readingModes"]),
         pageCount: json["pageCount"],
         printType: json["printType"],
-        categories: json["categories"] == null
-            ? []
-            : List<String>.from(json["categories"]!.map((x) => x)),
+        categories: List<String>.from(json["categories"].map((x) => x)),
         maturityRating: json["maturityRating"],
         allowAnonLogging: json["allowAnonLogging"],
         contentVersion: json["contentVersion"],
         panelizationSummary:
             PanelizationSummary.fromJson(json["panelizationSummary"]),
-        imageLinks: json["imageLinks"] == null
-            ? null
-            : ImageLinks.fromJson(json["imageLinks"]),
+        imageLinks: ImageLinks.fromJson(json["imageLinks"]),
         language: json["language"],
         previewLink: json["previewLink"],
         infoLink: json["infoLink"],
         canonicalVolumeLink: json["canonicalVolumeLink"],
-        industryIdentifiers: json["industryIdentifiers"] == null
-            ? []
-            : List<IndustryIdentifier>.from(json["industryIdentifiers"]!
-                .map((x) => IndustryIdentifier.fromJson(x))),
+        subtitle: json["subtitle"],
+        averageRating: json["averageRating"] ?? 0,
+        ratingsCount: json["ratingsCount"]?? 0,
       );
 
   Map<String, dynamic> toJson() => {
         "title": title,
-        "subtitle": subtitle,
         "authors": List<dynamic>.from(authors.map((x) => x)),
         "publisher": publisher,
         "publishedDate": publishedDate,
         "description": description,
+        "industryIdentifiers":
+            List<dynamic>.from(industryIdentifiers.map((x) => x.toJson())),
         "readingModes": readingModes.toJson(),
         "pageCount": pageCount,
         "printType": printType,
-        "categories": categories == null
-            ? []
-            : List<dynamic>.from(categories!.map((x) => x)),
+        "categories": List<dynamic>.from(categories.map((x) => x)),
         "maturityRating": maturityRating,
         "allowAnonLogging": allowAnonLogging,
         "contentVersion": contentVersion,
         "panelizationSummary": panelizationSummary.toJson(),
-        "imageLinks": imageLinks?.toJson(),
+        "imageLinks": imageLinks.toJson(),
         "language": language,
         "previewLink": previewLink,
         "infoLink": infoLink,
         "canonicalVolumeLink": canonicalVolumeLink,
-        "industryIdentifiers": industryIdentifiers == null
-            ? []
-            : List<dynamic>.from(industryIdentifiers!.map((x) => x.toJson())),
+        "subtitle": subtitle,
+        "averageRating": averageRating,
+        "ratingsCount": ratingsCount,
       };
 }
 

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../data/models/book_model.dart';
 import 'best_seller_list_view_item.dart';
 
 class BestSellerListView extends StatelessWidget {
-  const BestSellerListView({super.key});
+  const BestSellerListView({super.key,required this.bookModel});
+  final BookModel bookModel;
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +13,11 @@ class BestSellerListView extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.zero,
-        itemCount: 6,
+        itemCount: bookModel.items.length,
         itemBuilder: (context, index) {
-          return const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: BestSellerListViewItem(),
+          return  Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: BestSellerListViewItem(item: bookModel.items[index],),
           );
         });
   }
